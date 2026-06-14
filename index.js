@@ -31,10 +31,24 @@ app.post("/form", async (req, res) => {
   }
 });
 
-    if (!channel) {
-      console.log("Канал не найден");
-      return res.sendStatus(500);
-    }
+    app.post("/form", async (req, res) => {
+  console.log("Получен запрос:", req.body);
+
+  try {
+    const channel = await client.channels.fetch(process.env.CHANNEL_ID);
+
+    console.log("Канал найден:", channel?.id);
+
+    await channel.send("Тест");
+
+    console.log("Сообщение отправлено");
+
+    return res.status(200).send("OK");
+  } catch (err) {
+    console.error("Ошибка /form:", err);
+    return res.status(500).send("Error");
+  }
+});
 
     const embed = new EmbedBuilder()
       .setTitle("📩 Отчёт на повышение")
