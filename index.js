@@ -13,10 +13,23 @@ client.once("ready", () => {
 });
 
 app.post("/form", async (req, res) => {
-  try {
-    const data = req.body;
+  console.log("Получен запрос:", req.body);
 
+  try {
     const channel = await client.channels.fetch(process.env.CHANNEL_ID);
+
+    console.log("Канал найден:", channel?.id);
+
+    await channel.send("Тест");
+
+    console.log("Сообщение отправлено");
+
+    res.status(200).send("OK");
+  } catch (err) {
+    console.error("Ошибка /form:", err);
+    res.status(500).send("Error");
+  }
+});
 
     if (!channel) {
       console.log("Канал не найден");
