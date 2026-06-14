@@ -42,8 +42,10 @@ app.post("/form", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("API сервер запущен");
+const PORT = process.env.PORT;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log("API сервер запущен на порту", PORT);
 });
 
 client.login(process.env.DISCORD_TOKEN);
