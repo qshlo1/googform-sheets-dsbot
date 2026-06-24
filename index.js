@@ -4,7 +4,6 @@ import express from "express";
 const app = express();
 app.use(express.json());
 
-// лог всех входящих запросов (очень полезно)
 app.use((req, res, next) => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
   console.log("📥 NEW REQUEST");
@@ -21,24 +20,24 @@ const client = new Client({
 
 client.once("ready", () => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
-  console.log(`🤖 BOT READY: ${client.user.tag}`);
+  console.log(`BOT READY: ${client.user.tag}`);
 });
 
-/* HEALTH CHECK */
+
 app.get("/", (req, res) => {
-  console.log("🏠 GET / hit");
+  console.log("GET / hit");
   res.send("Server is alive");
 });
 
 app.get("/form", (req, res) => {
-  console.log("📄 GET /form hit");
+  console.log("GET /form hit");
   res.send("Form endpoint exists");
 });
 
-/* MAIN ENDPOINT */
+
 app.post("/form", async (req, res) => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
-  console.log("📩 POST /form RECEIVED");
+  console.log("POST /form RECEIVED");
 
   try {
     console.log("🔍 Fetching channel...");
@@ -47,25 +46,25 @@ app.post("/form", async (req, res) => {
     const channel = await client.channels.fetch(process.env.CHANNEL_ID);
 
     if (!channel) {
-      console.log("❌ Channel not found");
+      console.log("Channel not found");
       return res.status(500).send("Channel not found");
     }
 
-    console.log("✅ Channel found:", channel.id);
-    console.log("📤 Sending message to Discord...");
+    console.log("Channel found:", channel.id);
+    console.log("Sending message to Discord...");
 
     const message = "Тест из Google Forms";
 
     await channel.send(message);
 
-    console.log("✅ Message sent:", message);
+    console.log("Message sent:", message);
     console.log("━━━━━━━━━━━━━━━━━━━━");
 
     return res.status(200).send("OK");
 
   } catch (err) {
     console.log("━━━━━━━━━━━━━━━━━━━━");
-    console.error("❌ ERROR in /form:");
+    console.error("ERROR in /form:");
     console.error(err);
     console.log("━━━━━━━━━━━━━━━━━━━━");
 
@@ -78,8 +77,8 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
-  console.log("🚀 SERVER STARTED");
-  console.log("➡️ PORT:", PORT);
+  console.log("SERVER STARTED");
+  console.log("PORT:", PORT);
   console.log("━━━━━━━━━━━━━━━━━━━━");
 });
 
