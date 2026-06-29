@@ -4,6 +4,7 @@ import express from "express";
 const app = express();
 app.use(express.json());
 
+/* LOG MIDDLEWARE */
 app.use((req, res, next) => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
   console.log("📥 NEW REQUEST");
@@ -14,16 +15,31 @@ app.use((req, res, next) => {
   next();
 });
 
+/* DISCORD CLIENT */
 const client = new Client({
   intents: [GatewayIntentBits.Guilds]
 });
 
-client.once("ready", () => {
-  console.log("━━━━━━━━━━━━━━━━━━━━");
-  console.log(`BOT READY: ${client.user.tag}`);
+let botReady = false;
+let cachedChannel = null;
+
+/* READY EVENT */
+client.once("ready", async () => {
+  botReady = true;
+
+  try {
+    cachedChannel = await client.channels.fetch(process.env.CHANNEL_ID);
+
+    console.log("━━━━━━━━━━━━━━━━━━━━");
+    console.log(`BOT READY: ${client.user.tag}`);
+    console.log("CHANNEL LOADED:", cachedChannel?.id);
+    console.log("━━━━━━━━━━━━━━━━━━━━");
+  } catch (err) {
+    console.error("Channel fetch error:", err);
+  }
 });
 
-
+/* EXPRESS ROUTES */
 app.get("/", (req, res) => {
   console.log("GET / hit");
   res.send("Server is alive");
@@ -34,28 +50,21 @@ app.get("/form", (req, res) => {
   res.send("Form endpoint exists");
 });
 
-
 app.post("/form", async (req, res) => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
   console.log("POST /form RECEIVED");
 
+  if (!botReady || !cachedChannel) {
+    console.log("Bot not ready yet");
+    return res.status(503).send("Bot not ready");
+  }
+
   try {
-    console.log("🔍 Fetching channel...");
-    console.log("CHANNEL_ID:", process.env.CHANNEL_ID);
-
-    const channel = await client.channels.fetch(process.env.CHANNEL_ID);
-
-    if (!channel) {
-      console.log("Channel not found");
-      return res.status(500).send("Channel not found");
-    }
-
-    console.log("Channel found:", channel.id);
     console.log("Sending message to Discord...");
 
     const message = "Тест из Google Forms";
 
-    await channel.send(message);
+    await cachedChannel.send(message);
 
     console.log("Message sent:", message);
     console.log("━━━━━━━━━━━━━━━━━━━━");
@@ -82,4 +91,5 @@ app.listen(PORT, "0.0.0.0", () => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
 });
 
+/* LOGIN */
 client.login(process.env.DISCORD_TOKEN);
