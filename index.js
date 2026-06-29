@@ -4,7 +4,10 @@ import express from "express";
 const app = express();
 app.use(express.json());
 
-/* LOG MIDDLEWARE */
+/* ===========================
+   LOG MIDDLEWARE
+=========================== */
+
 app.use((req, res, next) => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
   console.log("📥 NEW REQUEST");
@@ -12,10 +15,14 @@ app.use((req, res, next) => {
   console.log("➡️ URL:", req.url);
   console.log("➡️ Body:", req.body);
   console.log("➡️ Time:", new Date().toISOString());
+  console.log("━━━━━━━━━━━━━━━━━━━━");
   next();
 });
 
-/* DISCORD CLIENT */
+/* ===========================
+   DISCORD CLIENT
+=========================== */
+
 const client = new Client({
   intents: [GatewayIntentBits.Guilds]
 });
@@ -23,73 +30,100 @@ const client = new Client({
 let botReady = false;
 let cachedChannel = null;
 
-/* READY EVENT */
-client.once("ready", async () => {
-  botReady = true;
+/* ===========================
+   BOT READY
+=========================== */
+
+client.once("clientReady", async () => {
+  console.log("━━━━━━━━━━━━━━━━━━━━");
+  console.log(`🤖 BOT READY: ${client.user.tag}`);
 
   try {
     cachedChannel = await client.channels.fetch(process.env.CHANNEL_ID);
 
+    if (!cachedChannel) {
+      console.error("❌ CHANNEL NOT FOUND");
+      return;
+    }
+
+    botReady = true;
+
+    console.log(`✅ CHANNEL LOADED: ${cachedChannel.id}`);
     console.log("━━━━━━━━━━━━━━━━━━━━");
-    console.log(BOT READY: ${client.user.tag});
-    console.log("CHANNEL LOADED:", cachedChannel?.id);
-    console.log("━━━━━━━━━━━━━━━━━━━━");
+
   } catch (err) {
-    console.error("Channel fetch error:", err);
+    console.error("❌ CHANNEL FETCH ERROR:");
+    console.error(err);
   }
 });
 
-/* EXPRESS ROUTES */
+/* ===========================
+   ROUTES
+=========================== */
+
 app.get("/", (req, res) => {
-  console.log("GET / hit");
+  console.log("GET /");
   res.send("Server is alive");
 });
 
 app.get("/form", (req, res) => {
-  console.log("GET /form hit");
+  console.log("GET /form");
   res.send("Form endpoint exists");
 });
 
 app.post("/form", async (req, res) => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
-  console.log("POST /form RECEIVED");
+  console.log("📨 POST /form");
 
-  if (!botReady || !cachedChannel) {
-    console.log("Bot not ready yet");
+  if (!botReady) {
+    console.log("❌ Bot is not ready");
     return res.status(503).send("Bot not ready");
   }
 
-  try {
-    console.log("Sending message to Discord...");
+  if (!cachedChannel) {
+    console.log("❌ Cached channel missing");
+    return res.status(500).send("Channel missing");
+  }
 
+  try {
+    console.log("Sending Discord message...");
+
+    // Пока тест
     const message = "Тест из Google Forms";
 
     await cachedChannel.send(message);
 
-    console.log("Message sent:", message);
+    console.log("✅ Message sent");
     console.log("━━━━━━━━━━━━━━━━━━━━");
 
     return res.status(200).send("OK");
 
   } catch (err) {
-    console.log("━━━━━━━━━━━━━━━━━━━━");
-    console.error("ERROR in /form:");
+    console.error("❌ SEND ERROR");
     console.error(err);
-    console.log("━━━━━━━━━━━━━━━━━━━━");
 
-    return res.status(500).send("Error");
+    return res.status(500).send("Discord send failed");
   }
 });
 
-/* SERVER START */
+/* ===========================
+   SERVER START
+=========================== */
+
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, () => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
-  console.log("SERVER STARTED");
-  console.log("PORT:", PORT);
+  console.log("🚀 SERVER STARTED");
+  console.log(`PORT: ${PORT}`);
   console.log("━━━━━━━━━━━━━━━━━━━━");
 });
 
-/* LOGIN */
-client.login(process.env.DISCORD_TOKEN);
+/* ===========================
+   LOGIN
+=========================== */
+
+client.login(process.env.DISCORD_TOKEN).catch(err => {
+  console.error("❌ LOGIN ERROR");
+  console.error(err);
+});
