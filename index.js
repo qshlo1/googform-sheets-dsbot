@@ -31,7 +31,7 @@ client.once("ready", async () => {
     cachedChannel = await client.channels.fetch(process.env.CHANNEL_ID);
 
     console.log("━━━━━━━━━━━━━━━━━━━━");
-    console.log(`BOT READY: ${client.user.tag}`);
+    console.log(BOT READY: ${client.user.tag});
     console.log("CHANNEL LOADED:", cachedChannel?.id);
     console.log("━━━━━━━━━━━━━━━━━━━━");
   } catch (err) {
