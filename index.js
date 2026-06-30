@@ -86,23 +86,56 @@ app.post("/form", async (req, res) => {
   }
 
   try {
-    console.log("Sending Discord message...");
+     console.log("Sending Discord embed...");
 
-    // Пока тест
-    const message = "Тест из Google Forms";
+     const { static: staticId, udo, exam, pmp } = req.body;
 
-    await cachedChannel.send(message);
+     await cachedChannel.send({
+       embeds: [
+         {
+           title: "📋 Новая заявка",
+           color: 0x3498db,
+           fields: [
+             {
+               name: "👤 Static ID",
+               value: String(staticId || "—"),
+               inline: false
+             },
+             {
+               name: "📖 УДО",
+               value: String(udo || "—"),
+               inline: false
+             },
+             {
+               name: "📝 Экзамен / Практика",
+               value: String(exam || "—"),
+               inline: false
+             },
+             {
+               name: "🕒 Удобное время",
+               value: String(pmp || "—"),
+               inline: false
+             }
+           ],
+           timestamp: new Date().toISOString(),
+           footer: {
+             text: "Google Forms → Discord Bot"
+        }
+      }
+    ]
+  });
 
-    console.log("✅ Message sent");
-    console.log("━━━━━━━━━━━━━━━━━━━━");
+  console.log("✅ Embed sent");
+  console.log("━━━━━━━━━━━━━━━━━━━━");
 
-    return res.status(200).send("OK");
+  return res.status(200).send("OK");
 
-  } catch (err) {
-    console.error("❌ SEND ERROR");
-    console.error(err);
+} catch (err) {
+  console.error("❌ SEND ERROR");
+  console.error(err);
 
-    return res.status(500).send("Discord send failed");
+  return res.status(500).send("Discord send failed");
+}
   }
 }); 
 
