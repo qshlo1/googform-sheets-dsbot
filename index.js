@@ -120,7 +120,7 @@ app.post("/form", async (req, res) => {
            ],
            timestamp: new Date().toISOString(),
            footer: {
-             text: "<@&1512774578768973824>"
+             text: "<@1512774578768973824>"
         }
       }
     ]
