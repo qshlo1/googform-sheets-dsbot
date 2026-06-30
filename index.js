@@ -97,12 +97,12 @@ app.post("/form", async (req, res) => {
            color: 0x3498db,
            fields: [
              {
-               name: "👤 Static ID",
+               name: "👤 Имя Фамилия | #StaticID",
                value: String(staticId || "—"),
                inline: false
              },
              {
-               name: "📖 УДО",
+               name: "🪪 Удостоверение",
                value: String(udo || "—"),
                inline: false
              },
