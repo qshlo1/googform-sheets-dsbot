@@ -93,7 +93,7 @@ app.post("/form", async (req, res) => {
      await cachedChannel.send({
        embeds: [
          {
-           title: "📋 Новая заявка",
+           title: "📋 Запись на экзамен.",
            color: 0x3498db,
            fields: [
              {
