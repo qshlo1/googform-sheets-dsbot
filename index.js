@@ -85,7 +85,7 @@ app.post("/form", async (req, res) => {
     return res.status(500).send("Channel missing");
   }
 
-  /* try {
+  try {
     console.log("Sending Discord message...");
 
     // Пока тест
@@ -103,7 +103,7 @@ app.post("/form", async (req, res) => {
     console.error(err);
 
     return res.status(500).send("Discord send failed");
-  }*/
+  }
 }); 
 
 /* ===========================
