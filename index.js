@@ -136,7 +136,6 @@ app.post("/form", async (req, res) => {
 
   return res.status(500).send("Discord send failed");
 }
-  }
 }); 
 
 /* ===========================
