@@ -71,7 +71,7 @@ app.get("/form", (req, res) => {
   res.send("Form endpoint exists");
 });
 
-/* app.post("/form", async (req, res) => {
+app.post("/form", async (req, res) => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
   console.log("📨 POST /form");
 
@@ -85,7 +85,7 @@ app.get("/form", (req, res) => {
     return res.status(500).send("Channel missing");
   }
 
-  try {
+  /* try {
     console.log("Sending Discord message...");
 
     // Пока тест
@@ -103,8 +103,8 @@ app.get("/form", (req, res) => {
     console.error(err);
 
     return res.status(500).send("Discord send failed");
-  }
-}); */
+  }*/
+}); 
 
 /* ===========================
    SERVER START
