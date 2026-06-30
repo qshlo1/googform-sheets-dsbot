@@ -71,7 +71,7 @@ app.get("/form", (req, res) => {
   res.send("Form endpoint exists");
 });
 
-app.post("/form", async (req, res) => {
+/* app.post("/form", async (req, res) => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
   console.log("📨 POST /form");
 
@@ -104,7 +104,7 @@ app.post("/form", async (req, res) => {
 
     return res.status(500).send("Discord send failed");
   }
-}); 
+}); */
 
 /* ===========================
    SERVER START
