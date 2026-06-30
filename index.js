@@ -93,7 +93,7 @@ app.post("/form", async (req, res) => {
      await cachedChannel.send({
        embeds: [
          {
-           title: "📋 Запись на экзамен.",
+           title: "📋 Отчёт на повышение на 2 ранг.",
            color: 0x3498db,
            fields: [
              {
@@ -102,17 +102,17 @@ app.post("/form", async (req, res) => {
                inline: false
              },
              {
-               name: "🪪 Удостоверение",
+               name: "🪪 Полученное удостоверение.",
                value: String(udo || "—"),
                inline: false
              },
              {
-               name: "📝 Экзамен / Практика",
+               name: "📝 Пройденный экзамен.",
                value: String(exam || "—"),
                inline: false
              },
              {
-               name: "🕒 Удобное время",
+               name: "🕒 Практика по ПМП.",
                value: String(pmp || "—"),
                inline: false
              }
