@@ -95,7 +95,7 @@ app.post("/form", async (req, res) => {
        embeds: [
          {
            title: "📋 Отчёт на повышение на 2 ранг.",
-           color: 0xFFC300,
+           color: 0xFFC107,
            fields: [
              {
                name: "👤 Имя Фамилия | #StaticID",
