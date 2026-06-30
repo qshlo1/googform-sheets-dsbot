@@ -91,7 +91,7 @@ app.post("/form", async (req, res) => {
      const { static: staticId, udo, exam, pmp } = req.body;
 
      await cachedChannel.send({
-       /* content: "<@&1512774578768973824>", */
+       content: "<@&1512774578768973824>",
        embeds: [
          {
            title: "📋 Отчёт на повышение на 2 ранг.",
@@ -120,7 +120,6 @@ app.post("/form", async (req, res) => {
            ],
            timestamp: new Date().toISOString(),
            footer: {
-             text: "<@1512774578768973824>"
         }
       }
     ]
