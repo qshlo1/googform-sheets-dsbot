@@ -1,6 +1,6 @@
 export async function sendWeeklyReport(channel, data) {
   
-  const { staticId, govWave, inviteds, promotionRaport, exam, balls } = data;
+  const { staticId, govWave, inviteds, promotionReport, exam, balls } = data;
 
     await channel.send({
       content: '<@&1512774578768973824>',
@@ -12,7 +12,7 @@ export async function sendWeeklyReport(channel, data) {
           fields: [
             {
               name: "Имя и фамилия | StaticID",
-              value: String(StaticId || "—"),
+              value: String(staticId || "—"),
               inline: false
             },
             {
@@ -32,7 +32,7 @@ export async function sendWeeklyReport(channel, data) {
             },
             {
               name: "Проведенные экзамены.",
-              valeu: String(exam || "—")
+              value: String(exam || "—"),
               inline: false
             },
             {
@@ -44,8 +44,8 @@ export async function sendWeeklyReport(channel, data) {
         ],
 
 
-        timestamp: new.Date().toISOString()
+        timestamp: new Date().toISOString()
       }
     ]
-  }),
+  });
 }
