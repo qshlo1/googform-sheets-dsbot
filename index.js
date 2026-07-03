@@ -106,7 +106,6 @@ app.post("/form", async (req, res) => {
          return res.status(400).send("Unknown form type");
 
       }
-     }
 
   console.log("✅ Embed sent");
   console.log("━━━━━━━━━━━━━━━━━━━━");
