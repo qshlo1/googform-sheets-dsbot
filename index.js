@@ -46,6 +46,7 @@ client.once("clientReady", async () => {
 
     channels.exam = await client.channels.fetch(process.env.CHANNEL_EXAM);
     channels.promotion = await client.channels.fetch(process.env.CHANNEL_PROMOTION);
+    channels.weeklyReport = await client.channels.fetch(process.env.CHANNEL_WEEKLYREPORT);
 
     botReady = true;
 
@@ -105,7 +106,7 @@ app.post("/form", async (req, res) => {
           await sendPromotion(channels.promotion, req.body);
 
       }
-      else if (type === "WeeklyReport") {
+      else if (type === "weeklyReport") {
 
          await sendWeeklyReport(channels.weeklyReport, req.body);
 
