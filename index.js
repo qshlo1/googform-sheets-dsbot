@@ -104,7 +104,7 @@ app.post("/form", async (req, res) => {
       }
       else if (type === "WeeklyReport") {
 
-         await sendWeeklyReport(channels.promotion, req.body);
+         await sendWeeklyReport(channels.weeklyReport, req.body);
 
       }  
       else {
