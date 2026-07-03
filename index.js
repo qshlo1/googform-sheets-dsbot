@@ -134,7 +134,7 @@ app.post("/form", async (req, res) => {
       const { staticId, rankFromTo, reportLink } = req.body;
 
              await cachedChannel.send({
-       content: "<@&1512774578768973824>",
+       content: "<@&1512785654084534413>",
        embeds: [
          {
            title: "📋 Запрос на поышение.",
