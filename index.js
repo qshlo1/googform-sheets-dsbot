@@ -1,6 +1,7 @@
 import { sendExam } from "./handlers/exam.js";
 import { sendPromotion } from "./handlers/promotion.js";
 import { sendWeeklyReport } from "./handlers/weeklyReport.js";
+import { Roles } from "./config/roles.js";
 import { Client, GatewayIntentBits } from "discord.js";
 import express from "express";
 
