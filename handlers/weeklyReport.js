@@ -1,1 +1,4 @@
-export async function sendweeklyReport
+export async function sendweeklyReport(chanel, data) {
+  
+  
+}
