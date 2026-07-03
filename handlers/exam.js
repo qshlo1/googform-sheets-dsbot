@@ -1,12 +1,12 @@
 export async function sendExam(channel, data) {
 
-    const { staticId, rankFromTo, reportLink } = data;
+    const { staticId, udo, exam, pmp } = data;
 
     await channel.send({
         content: "<@&1512785654084534413>",
         embeds: [
             {
-                title: "📋 Запрос на повышение",
+                title: "📋 Отчёт на повышение на 2 ранг.",
                 color: 0xFFC107,
 
                 fields: [
@@ -16,20 +16,23 @@ export async function sendExam(channel, data) {
                         inline: false
                     },
                     {
-                        name: "📈 С какого на какой ранг",
-                        value: String(rankFromTo || "—"),
+                        name: "🪪 Полученное удостоверение.",
+                        value: String(udo || "—"),
                         inline: false
                     },
                     {
-                        name: "📄 Ссылка на отчёт",
-                        value: String(reportLink || "—"),
+                        name: "📝 Пройденный экзамен.",
+                        value: String(exam || "—"),
                         inline: false
-                    }
+                    },
+                    {
+                       name: "🕒 Практика по ПМП.",
+                       value: String(pmp || "—"),
+                       inline: false
+                     }
                 ],
 
                 timestamp: new Date().toISOString()
             }
         ]
     });
-
-}
