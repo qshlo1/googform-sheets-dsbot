@@ -88,7 +88,7 @@ app.post("/form", async (req, res) => {
   try {
      console.log("Sending Discord embed...");
 
-     const { type } = req.body;
+     const { type, staticId, rankFromTo, reportLink, udo, exam, pmp } = req.body;
 
      if (type === "exam") {
 
