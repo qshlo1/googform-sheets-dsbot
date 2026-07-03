@@ -76,6 +76,9 @@ app.get("/form", (req, res) => {
 app.post("/form", async (req, res) => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
   console.log("📨 POST /form");
+   
+   const type = req.body.type;
+   console.log("TYPE:", type);
 
   if (!botReady) {
     console.log("❌ Bot is not ready");
