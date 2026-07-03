@@ -88,7 +88,9 @@ app.post("/form", async (req, res) => {
   try {
      console.log("Sending Discord embed...");
 
-     const { static: staticId, udo, exam, pmp } = req.body;
+     const { type } = req.body;
+
+     if (type === "exam") {
 
      await cachedChannel.send({
        content: "<@&1512774578768973824>",
@@ -124,6 +126,42 @@ app.post("/form", async (req, res) => {
       }
     ]
   });
+     }
+     else if (type === "promotion") {
+
+             await cachedChannel.send({
+       content: "<@&1512774578768973824>",
+       embeds: [
+         {
+           title: "📋 Запрос на поышение.",
+           color: 0xFFC107,
+           fields: [
+             {
+               name: "👤 Имя Фамилия | #StaticID",
+               value: String(staticId || "—"),
+               inline: false
+             },
+             {
+               name: "С какого на какой ранг.",
+               value: String(rankFromTo || "—"),
+               inline: false
+             },
+             {
+               name: "Ссылка отчёта на повышение.",
+               value: String(reportLink || "—"),
+               inline: false
+             }
+           ],
+           timestamp: new Date().toISOString(),
+           footer: {
+        }
+      }
+    ]
+  });
+     }
+     else {
+  return res.status(400).send("Unknown form type");
+}
 
   console.log("✅ Embed sent");
   console.log("━━━━━━━━━━━━━━━━━━━━");
