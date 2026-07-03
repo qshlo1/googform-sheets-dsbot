@@ -28,7 +28,8 @@ const client = new Client({
 });
 
 let botReady = false;
-let cachedChannel = null;
+
+const channels = {};
 
 /* ===========================
    BOT READY
@@ -39,16 +40,14 @@ client.once("clientReady", async () => {
   console.log(`🤖 BOT READY: ${client.user.tag}`);
 
   try {
-    cachedChannel = await client.channels.fetch(process.env.CHANNEL_ID);
 
-    if (!cachedChannel) {
-      console.error("❌ CHANNEL NOT FOUND");
-      return;
-    }
+    channels.exam = await client.channels.fetch(process.env.CHANNEL_EXAM);
+    channels.promotion = await client.channels.fetch(process.env.CHANNEL_PROMOTION);
 
     botReady = true;
 
-    console.log(`✅ CHANNEL LOADED: ${cachedChannel.id}`);
+    console.log(`✅ Exam channel: ${channels.exam.id}`);
+    console.log(`✅ Promotion channel: ${channels.promotion.id}`);
     console.log("━━━━━━━━━━━━━━━━━━━━");
 
   } catch (err) {
@@ -80,10 +79,10 @@ app.post("/form", async (req, res) => {
     return res.status(503).send("Bot not ready");
   }
 
-  if (!cachedChannel) {
-    console.log("❌ Cached channel missing");
-    return res.status(500).send("Channel missing");
-  }
+  //if (!cachedChannel) {
+    //console.log("❌ Cached channel missing");
+    //return res.status(500).send("Channel missing");
+  //}
 
   try {
      console.log("Sending Discord embed...");
@@ -94,7 +93,7 @@ app.post("/form", async (req, res) => {
 
         const { staticId, udo, exam, pmp } = req.body;
 
-     await cachedChannel.send({
+     await channels.exam.send({
        content: "<@&1512774578768973824>",
        embeds: [
          {
@@ -133,7 +132,7 @@ app.post("/form", async (req, res) => {
 
       const { staticId, rankFromTo, reportLink } = req.body;
 
-             await cachedChannel.send({
+             await channels.promotion.send({
        content: "<@&1512785654084534413>",
        embeds: [
          {
