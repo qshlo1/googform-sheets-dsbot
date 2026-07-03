@@ -88,9 +88,11 @@ app.post("/form", async (req, res) => {
   try {
      console.log("Sending Discord embed...");
 
-     const { type, staticId, rankFromTo, reportLink, udo, exam, pmp } = req.body;
+     const type = req.body.type;
 
      if (type === "exam") {
+
+        const { staticId, udo, exam, pmp } = req.body;
 
      await cachedChannel.send({
        content: "<@&1512774578768973824>",
@@ -128,6 +130,8 @@ app.post("/form", async (req, res) => {
   });
      }
      else if (type === "promotion") {
+
+      const { staticId, rankFromTo, reportLink } = req.body;
 
              await cachedChannel.send({
        content: "<@&1512774578768973824>",
