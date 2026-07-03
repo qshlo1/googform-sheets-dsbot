@@ -40,7 +40,7 @@ export async function sendWeeklyReport(channel, data) {
               value: String(balls || "—"),
               inline: false
             }
-          }
+        }
         ],
 
 
