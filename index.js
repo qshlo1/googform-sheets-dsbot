@@ -1,3 +1,5 @@
+import { sendExam } from "./handlers/exam.js";
+import { sendPromotion } from "./handlers/promotion.js";
 import { Client, GatewayIntentBits } from "discord.js";
 import express from "express";
 
@@ -91,79 +93,19 @@ app.post("/form", async (req, res) => {
 
      if (type === "exam") {
 
-        const { staticId, udo, exam, pmp } = req.body;
+         await sendExam(channels.exam, req.body);
 
-     await channels.exam.send({
-       content: "<@&1512774578768973824>",
-       embeds: [
-         {
-           title: "📋 Отчёт на повышение на 2 ранг.",
-           color: 0xFFC107,
-           fields: [
-             {
-               name: "👤 Имя Фамилия | #StaticID",
-               value: String(staticId || "—"),
-               inline: false
-             },
-             {
-               name: "🪪 Полученное удостоверение.",
-               value: String(udo || "—"),
-               inline: false
-             },
-             {
-               name: "📝 Пройденный экзамен.",
-               value: String(exam || "—"),
-               inline: false
-             },
-             {
-               name: "🕒 Практика по ПМП.",
-               value: String(pmp || "—"),
-               inline: false
-             }
-           ],
-           timestamp: new Date().toISOString(),
-           footer: {
-        }
       }
-    ]
-  });
-     }
-     else if (type === "promotion") {
+      else if (type === "promotion") {
 
-      const { staticId, rankFromTo, reportLink } = req.body;
+          await sendPromotion(channels.promotion, req.body);
 
-             await channels.promotion.send({
-       content: "<@&1512785654084534413>",
-       embeds: [
-         {
-           title: "📋 Запрос на поышение.",
-           color: 0xFFC107,
-           fields: [
-             {
-               name: "👤 Имя Фамилия | #StaticID",
-               value: String(staticId || "—"),
-               inline: false
-             },
-             {
-               name: "С какого на какой ранг.",
-               value: String(rankFromTo || "—"),
-               inline: false
-             },
-             {
-               name: "Ссылка отчёта на повышение.",
-               value: String(reportLink || "—"),
-               inline: false
-             }
-           ],
-           timestamp: new Date().toISOString(),
-           footer: {
-        }
       }
-    ]
-  });
-     }
-     else {
-  return res.status(400).send("Unknown form type");
+      else {
+
+         return res.status(400).send("Unknown form type");
+
+      }
 }
 
   console.log("✅ Embed sent");
