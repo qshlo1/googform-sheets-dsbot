@@ -1,3 +1,4 @@
+import { Roles } from "../config/roles.js";
 export async function sendExam(channel, data) {
 
     const { staticId, udo, exam, pmp } = data;
