@@ -1,6 +1,7 @@
 import { sendExam } from "./handlers/exam.js";
 import { sendPromotion } from "./handlers/promotion.js";
 import { sendWeeklyReport } from "./handlers/weeklyReport.js";
+import { applicationToDep } from "./handlers/application to dep.js";
 import { Roles } from "./config/roles.js";
 import { Client, GatewayIntentBits } from "discord.js";
 import express from "express";
@@ -112,6 +113,11 @@ app.post("/form", async (req, res) => {
          await sendWeeklyReport(channels.weeklyReport, req.body);
 
       }  
+      else if (type === "application to dep") {
+
+         await applicationToDep(channels.applicationToDep, req.body);
+
+      }
       else {
 
          return res.status(400).send("Unknown form type");
