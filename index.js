@@ -2,6 +2,7 @@ import { sendExam } from "./handlers/exam.js";
 import { sendPromotion } from "./handlers/promotion.js";
 import { sendWeeklyReport } from "./handlers/weeklyReport.js";
 import { applicationToDep } from "./handlers/application to dep.js";
+import { applicationToDS } from "./handlers/application to DS.js";
 import { Roles } from "./config/roles.js";
 import { Client, GatewayIntentBits } from "discord.js";
 import express from "express";
@@ -24,9 +25,7 @@ app.use((req, res, next) => {
   next();
 });
 
-/* ===========================
-   DISCORD CLIENT
-=========================== */
+/*DISCORD CLIENT*/
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds]
@@ -36,13 +35,11 @@ let botReady = false;
 
 const channels = {};
 
-/* ===========================
-   BOT READY
-=========================== */
+/*BOT READY*/
 
 client.once("clientReady", async () => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
-  console.log(`🤖 BOT READY: ${client.user.tag}`);
+  console.log(`BOT READY: ${client.user.tag}`);
 
   try {
 
@@ -52,19 +49,17 @@ client.once("clientReady", async () => {
 
     botReady = true;
 
-    console.log(`✅ Exam channel: ${channels.exam.id}`);
-    console.log(`✅ Promotion channel: ${channels.promotion.id}`);
+    console.log(`Exam channel: ${channels.exam.id}`);
+    console.log(`Promotion channel: ${channels.promotion.id}`);
     console.log("━━━━━━━━━━━━━━━━━━━━");
 
   } catch (err) {
-    console.error("❌ CHANNEL FETCH ERROR:");
+    console.error("CHANNEL FETCH ERROR:");
     console.error(err);
   }
 });
 
-/* ===========================
-   ROUTES
-=========================== */
+/*ROUTES*/
 
 app.get("/", (req, res) => {
   console.log("GET /");
@@ -84,14 +79,9 @@ app.post("/form", async (req, res) => {
    console.log("TYPE:", type);
 
   if (!botReady) {
-    console.log("❌ Bot is not ready");
+    console.log("Bot is not ready");
     return res.status(503).send("Bot not ready");
   }
-
-  //if (!cachedChannel) {
-    //console.log("❌ Cached channel missing");
-    //return res.status(500).send("Channel missing");
-  //}
 
   try {
      console.log("Sending Discord embed...");
@@ -118,19 +108,25 @@ app.post("/form", async (req, res) => {
          await applicationToDep(channels.applicationToDep, req.body);
 
       }
+
+      else if (type === "application to DS") {
+
+         await applicationToDS(channels.applicationToDS, req.body);
+      }
+      
       else {
 
          return res.status(400).send("Unknown form type");
 
       }
 
-  console.log("✅ Embed sent");
+  console.log("Embed sent");
   console.log("━━━━━━━━━━━━━━━━━━━━");
 
   return res.status(200).send("OK");
 
 } catch (err) {
-  console.error("❌ SEND ERROR");
+  console.error("SEND ERROR");
   console.error(err);
 
   return res.status(500).send("Discord send failed");
@@ -145,7 +141,7 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
-  console.log("🚀 SERVER STARTED");
+  console.log("SERVER STARTED");
   console.log(`PORT: ${PORT}`);
   console.log("━━━━━━━━━━━━━━━━━━━━");
 });
@@ -155,6 +151,6 @@ app.listen(PORT, () => {
 =========================== */
 
 client.login(process.env.DISCORD_TOKEN).catch(err => {
-  console.error("❌ LOGIN ERROR");
+  console.error("LOGIN ERROR");
   console.error(err);
 });
