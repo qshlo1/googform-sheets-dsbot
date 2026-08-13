@@ -10,9 +10,7 @@ import express from "express";
 const app = express();
 app.use(express.json());
 
-/* ===========================
-   LOG MIDDLEWARE
-=========================== */
+/*LOG MIDDLEWARE*/
 
 app.use((req, res, next) => {
   console.log("━━━━━━━━━━━━━━━━━━━━");
